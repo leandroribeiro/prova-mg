@@ -6,13 +6,17 @@ using ProvaMG.App.Models;
 
 namespace ProvaMG.App.Services
 {
-    public class MunicipiosApiClient : IMunicipiosApiClient
+    public class MunicipiosApiClient : BaseApiClient, IMunicipiosApiClient
     {
+        private readonly HttpClient _httpClient;
+
+        public MunicipiosApiClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
         public IEnumerable<MunicipioViewModel> Obter(string uf)
         {
-            var httpClient = new HttpClient();
-
-            var response = httpClient.GetAsync($"http://localhost:5000/municipios/{uf}").Result;
+            var response = _httpClient.GetAsync($"{UrlBase}{UrlsConfig.ObterMunicipiosPor(uf)}").Result;
 
             response.EnsureSuccessStatusCode();
 

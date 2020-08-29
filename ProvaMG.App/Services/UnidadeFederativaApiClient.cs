@@ -1,16 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 
 namespace ProvaMG.App.Services
 {
-    public class UnidadeFederativaApiClient : IUnidadeFederativaApiClient
+    public class UnidadeFederativaApiClient : BaseApiClient, IUnidadeFederativaApiClient
     {
+        private readonly HttpClient _httpClient;
+
+        public UnidadeFederativaApiClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
         public IEnumerable<string> ObterTodas()
         {
-            var httpClient = new HttpClient();
-
-            var response = httpClient.GetAsync("http://localhost:5000/unidades").Result;
+            var response = _httpClient.GetAsync($"{UrlBase}{UrlsConfig.ObterUnidades}").Result;
 
             response.EnsureSuccessStatusCode();
 

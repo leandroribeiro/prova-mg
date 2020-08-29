@@ -1,6 +1,10 @@
-﻿namespace ProvaMG.App.Services
+﻿using System.Collections.Generic;
+using ProvaMG.App.Models;
+
+namespace ProvaMG.App.Services
 {
     public interface IMunicipiosApiClient
     {
+        IEnumerable<MunicipioViewModel> Obter(string uf);
     }
 }

@@ -12,16 +12,18 @@ namespace ProvaMG.App.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUnidadeFederativaApiClient _unidadeApiClient;
+        private readonly IMunicipiosApiClient _municipiosApiClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnidadeFederativaApiClient unidadeApiClient, IMunicipiosApiClient municipiosApiClient)
         {
-            _logger = logger;
+            _unidadeApiClient = unidadeApiClient;
+            _municipiosApiClient = municipiosApiClient;
         }
 
         public IActionResult Index()
         {
-            var unidades = new UnidadeFederativaApiClient().ObterTodas();
+            var unidades = _unidadeApiClient.ObterTodas();
 
             var indexViewModel = new IndexViewModel()
             {
@@ -36,7 +38,7 @@ namespace ProvaMG.App.Controllers
             if (string.IsNullOrWhiteSpace(uf) || uf == "0" || uf == "-1")
                 return null;
 
-            return new MunicipiosApiClient().Obter(uf);
+            return _municipiosApiClient.Obter(uf);
         }
 
 

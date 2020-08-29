@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProvaMG.App.Services;
 
 namespace ProvaMG.App
 {
@@ -24,6 +25,8 @@ namespace ProvaMG.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHttpClient<IMunicipiosApiClient, MunicipiosApiClient>();
+            services.AddHttpClient<IUnidadeFederativaApiClient, UnidadeFederativaApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
