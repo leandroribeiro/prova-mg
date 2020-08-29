@@ -38,7 +38,6 @@ namespace ProvaMG.Api
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             
             services.AddScoped<IAutenticacaoAppService, AutenticacaoAppService>();
-            services.AddScoped<IMunicipioAppService, MunicipioAppService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

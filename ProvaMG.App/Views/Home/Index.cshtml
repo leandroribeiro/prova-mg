@@ -127,9 +127,28 @@
                     $.getJSON('@Url.Action("ObterMunicipiosPor")', { uf: uf, pagina: pagina }, function (data) {
                         if (data != null && !jQuery.isEmptyObject(data))
                         {
-                            
+                            console.log(data);
                             $.each(data.results, function (index, municipio) {
-                                municipiosTableBody.append('<tr><td>' + municipio.codigo + '</td><td>' + municipio.nome + '</td></tr>');
+                                
+                                var linha = '<tr>';
+                                
+                                //codigo                                
+                                linha += '<td>' +municipio.codigo + '</td>';
+                                
+                                //nome
+                                linha += '<td>';
+                                if(municipio.editavel)
+                                    linha += '<a href="#">';
+                                
+                                linha += municipio.nome;
+                                
+                                if(municipio.editavel === true)
+                                    linha += '</a>';
+                                
+                                linha += '</td>';
+                                linha += '</tr>';
+                            
+                                municipiosTableBody.append(linha);
                             });
                        
                             gerarPaginador(municipiosTableFooter, data.currentPage, data.pageCount);

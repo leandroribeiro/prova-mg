@@ -2,6 +2,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using ProvaMG.Application;
+using ProvaMG.Domain;
 using ProvaMG.Infrasctructure;
 
 namespace ProvaMG.Api.Controllers
@@ -10,18 +11,18 @@ namespace ProvaMG.Api.Controllers
     [Route("[controller]")]
     public class UnidadesController : ControllerBase
     {
-        private readonly IMunicipioAppService _appService;
+        private readonly IMunicipioRepository _repository;
 
-        public UnidadesController(IMunicipioAppService appService)
+        public UnidadesController(IMunicipioRepository repository)
         {
-            _appService = appService;
+            _repository = repository;
         }
 
         [HttpGet()]
         [ProducesResponseType(typeof(List<string>), (int)HttpStatusCode.OK)]
         public ActionResult<IList<string>> GetAllSync()
         {
-            var unidades = _appService.ObterUnidadesFederativas();
+            var unidades = _repository.ObterUnidadesFederativas();
 
             if (unidades is null)
             {

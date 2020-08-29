@@ -4,18 +4,21 @@ namespace ProvaMG.Api.ViewModels
 {
     public class MunicipioViewModel
     {
-        public short Id { get; }
+        public short Codigo { get; }
         public string Nome { get; }
 
-        public bool Editavel
-        {
-            get { return (this.Id % 3 == 0); }
-        }
+        public bool Editavel { get; }
 
         public MunicipioViewModel(Municipio model)
         {
-            this.Id = model.Codigo;
+            this.Codigo = model.Codigo;
             this.Nome = model.Nome;
+            this.Editavel = DivisivelPorTres(model.Codigo);
+        }
+
+        public bool DivisivelPorTres(int numero)
+        {
+            return (numero % 3 == 0);
         }
     }
 }

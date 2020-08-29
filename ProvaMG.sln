@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.Application.Integra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.App", "ProvaMG.App\ProvaMG.App.csproj", "{075732CE-CB9C-489E-A08D-64A0AD25BB97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.Infrasctructure.IntegrationTests", "ProvaMG.Infrasctructure.IntegrationTests\ProvaMG.Infrasctructure.IntegrationTests.csproj", "{3BD24FDF-955B-49AD-8085-171BD19D7BD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{075732CE-CB9C-489E-A08D-64A0AD25BB97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{075732CE-CB9C-489E-A08D-64A0AD25BB97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{075732CE-CB9C-489E-A08D-64A0AD25BB97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BD24FDF-955B-49AD-8085-171BD19D7BD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BD24FDF-955B-49AD-8085-171BD19D7BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BD24FDF-955B-49AD-8085-171BD19D7BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BD24FDF-955B-49AD-8085-171BD19D7BD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

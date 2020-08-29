@@ -13,20 +13,25 @@ namespace ProvaMG.Api.Controllers
     [Route("[controller]")]
     public class MunicipiosController : ControllerBase
     {
-        private readonly IMunicipioAppService _appService;
+        private const int PAGE_SIZE = 10;
+        
+        private readonly IMunicipioRepository _repository;
 
-        public MunicipiosController(IMunicipioAppService appService)
+        public MunicipiosController(IMunicipioRepository repository)
         {
-            _appService = appService;
+            _repository = repository;
         }
         
         [HttpGet()]
         [ProducesResponseType(typeof(List<MunicipioViewModel>), (int)HttpStatusCode.OK)]
-        public ActionResult<PagedResult<Municipio>> GetAllSync()
+        public ActionResult<IList<MunicipioViewModel>> GetAllSync()
         {
-            var municipios = _appService.ObterMunicipiosPaginado(1);
+            var municipios = _repository
+                .ObterMunicipios()
+                .Select(x=>new MunicipioViewModel(x))
+                .ToList();
 
-            if (municipios is null)
+            if (!municipios.Any())
             {
                 return NotFound();
             }
@@ -38,21 +43,26 @@ namespace ProvaMG.Api.Controllers
         [ProducesResponseType(typeof(List<MunicipioViewModel>), (int)HttpStatusCode.OK)]
         public ActionResult<List<MunicipioViewModel>> GetAllSync(string uf)
         {
-            var municipios = _appService.ObterMunicipios(uf);
+            var municipios = _repository
+                .ObterMunicipios(uf)
+                .Select(x=>new MunicipioViewModel(x))
+                .ToList();
 
-            if (municipios is null)
+            if (!municipios.Any())
             {
                 return NotFound();
             }
 
-            return municipios.Select(x=>new MunicipioViewModel(x)).ToList();
+            return municipios;
         }
         
         [HttpGet("{uf}/{page:int}")]
         [ProducesResponseType(typeof(List<MunicipioViewModel>), (int)HttpStatusCode.OK)]
-        public ActionResult<PagedResult<Municipio>> GetAllSync(string uf, int page)
+        public ActionResult<PagedResult<MunicipioViewModel>> GetAllSync(string uf, int page)
         {
-            var municipios = _appService.ObterMunicipiosPaginado(uf, page);
+            var municipios = _repository.ObterMunicipios(uf)
+                .Select(x => new MunicipioViewModel(x))
+                .GetPaged(page, PAGE_SIZE);
 
             if (municipios is null)
             {
