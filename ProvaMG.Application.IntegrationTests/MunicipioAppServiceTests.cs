@@ -26,8 +26,8 @@ namespace ProvaMG.Application.IntegrationTests
         }
         
         [Theory]
-        [InlineData("MG", 855)]
-        [InlineData("SP", 648)]
+        [InlineData("MG", 854)]
+        [InlineData("SP", 647)]
         [InlineData("RJ", 94)]
         public void Deve_Retornar_Os_Municipios_Por_UF(string unidadeFederativa, int qtdMunicipios)
         {
@@ -38,8 +38,8 @@ namespace ProvaMG.Application.IntegrationTests
         }
         
         [Theory]
-        [InlineData("MG", 855)]
-        [InlineData("SP", 648)]
+        [InlineData("MG", 854)]
+        [InlineData("SP", 647)]
         [InlineData("RJ", 94)]
         public void Deve_Retornar_Os_Municipios_Por_UF_Paginados(string unidadeFederativa, int qtdMunicipios)
         {
