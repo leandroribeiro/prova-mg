@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ProvaMG.Application\ProvaMG.Application.csproj" />
+      <ProjectReference Include="..\ProvaMG.Domain\ProvaMG.Domain.csproj" />
+      <ProjectReference Include="..\ProvaMG.Infrasctructure\ProvaMG.Infrasctructure.csproj" />
+    </ItemGroup>
+
+
+</Project>
