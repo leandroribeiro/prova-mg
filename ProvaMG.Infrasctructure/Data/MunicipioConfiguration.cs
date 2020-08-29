@@ -35,7 +35,8 @@ namespace ProvaMG.Infrasctructure.Data
             builder.Property(m => m.UF)
                 .HasColumnName("tipo_municipio_uf")
                 .HasMaxLength(2);
-            
+            builder.Ignore(m => m.Editavel);
+
         }
     }
 }

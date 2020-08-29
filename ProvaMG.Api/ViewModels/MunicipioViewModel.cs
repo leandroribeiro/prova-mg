@@ -13,12 +13,7 @@ namespace ProvaMG.Api.ViewModels
         {
             this.Codigo = model.Codigo;
             this.Nome = model.Nome;
-            this.Editavel = DivisivelPorTres(model.Codigo);
-        }
-
-        public bool DivisivelPorTres(int numero)
-        {
-            return (numero % 3 == 0);
+            this.Editavel = model.Editavel;
         }
     }
 }

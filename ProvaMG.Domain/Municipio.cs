@@ -12,5 +12,18 @@ namespace ProvaMG.Domain
         public string CodigoExt { get; set; }
         public int? RendimentoId { get; set; }
         public string UF { get; set; }
+
+        public bool Editavel
+        {
+            get
+            {
+                return DivisivelPorTres(this.Codigo);
+            }
+        }
+
+        private bool DivisivelPorTres(int numero)
+        {
+            return (numero % 3 == 0);
+        }
     }
 }

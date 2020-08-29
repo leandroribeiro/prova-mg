@@ -72,7 +72,10 @@ namespace ProvaMG.Infrasctructure.IntegrationTests
         [InlineData("RJ")]
         public void Deve_Retornar_Os_Municipios_Por_UF_Divisiveis_Por_Tres(string unidadeFederativa)
         {
-            var municipios = _repository.ObterMunicipios(unidadeFederativa).Where(x=>x.Codigo % 3 == 0).ToList();
+            var municipios = _repository
+                .ObterMunicipios(unidadeFederativa)
+                .ToList()
+                .FindAll(x=>x.Editavel);
             
             Assert.True(municipios!=null, "Retorno não pode ser nulo");
             Assert.True(municipios.Count>0);
