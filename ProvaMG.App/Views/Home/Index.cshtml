@@ -64,14 +64,16 @@
                     @foreach (var item in Model.Municipios)
                     {
                         <tr>
-                            <td>@item.Id</td>
+                            <td>@item.Codigo</td>
                             <td>@item.Nome</td>
                         </tr>
                     }
                     </tbody>
                     <tfoot>
+                    <tr>
                         <td></td>
                         <td></td>
+                    </tr>
                     </tfoot>
                 </table>
 
@@ -82,22 +84,73 @@
 
 @section Scripts {
     <script type="text/javascript">
-            $('#Unidades').change(function () {
-                var selectedUnidade = $("#Unidades").val();
+            $(document).ready(function () { 
+                     
+                $('#Unidades').change(carregarMunicipios);
+                
+                $( "#Municipios tfoot" ).on( "click", "a", function( event ) {
+                    var elem = $( this );
+                    
+                    paginar(elem.attr('data-pagina'));
+                });
+            });
+            
+            function gerarPaginador(target, currentPage, pageCount){
+                
+                var paginacao = '<tr><td colspan="2">';
+                
+                for (var i = 1; i < pageCount; i++) {
+                    if (currentPage === i)
+                        paginacao += '<strong>';
+                    
+                    paginacao += '<a href="#" data-pagina="'+i+'" class="paginador">' + i + '</a>&nbsp';
+                    
+                    if (currentPage === i)
+                        paginacao += '</strong>';
+                    
+                }
+                
+                paginacao += '</td></tr>';
+                
+                target.append(paginacao);
+            } 
+
+            function carregarMunicipiosPaginado(uf, pagina) {
+                
                 var municipiosTableBody = $('#Municipios tbody');
+                var municipiosTableFooter = $('#Municipios tfoot');
+                
                 municipiosTableBody.empty();
-                if (selectedUnidade != null && selectedUnidade !== '') {
-                    $.getJSON('@Url.Action("ObterMunicipiosPor")', { uf: selectedUnidade }, function (municipios) {
-                        if (municipios != null && !jQuery.isEmptyObject(municipios))
+                municipiosTableFooter.empty();
+                
+                if (uf != null && uf !== '') {
+                    $.getJSON('@Url.Action("ObterMunicipiosPor")', { uf: uf, pagina: pagina }, function (data) {
+                        if (data != null && !jQuery.isEmptyObject(data))
                         {
                             
-                            $.each(municipios, function (index, municipio) {
-                                municipiosTableBody.append('<tr><td>' + municipio.id + '</td><td>' + municipio.nome + '</td></tr>');
+                            $.each(data.results, function (index, municipio) {
+                                municipiosTableBody.append('<tr><td>' + municipio.codigo + '</td><td>' + municipio.nome + '</td></tr>');
                             });
+                       
+                            gerarPaginador(municipiosTableFooter, data.currentPage, data.pageCount);
                             
                         }
                     });
                 }
-            });
+            }
+            
+            function carregarMunicipios() {
+                
+                var unidadeSelecionado = $("#Unidades").val();
+                
+                carregarMunicipiosPaginado(unidadeSelecionado, 1);
+            }
+            
+            function paginar(indice){
+                var unidadeSelecionado = $("#Unidades").val();
+                
+                carregarMunicipiosPaginado(unidadeSelecionado, indice);
+            }
+            
     </script>
 }

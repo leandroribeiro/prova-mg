@@ -4,9 +4,9 @@ namespace ProvaMG.App.Models
 {
     public class MunicipioViewModel
     {
-        [DisplayName("Id")]
+        [DisplayName("Código")]
 
-        public short Id { get; private set; }
+        public short Codigo { get; private set; }
 
         [DisplayName("Nome")]
 
@@ -14,9 +14,9 @@ namespace ProvaMG.App.Models
 
         public bool Editavel { get; private set; }
 
-        public MunicipioViewModel(short id, string nome, bool editavel)
+        public MunicipioViewModel(short codigo, string nome, bool editavel)
         {
-            Id = id;
+            Codigo = codigo;
             Nome = nome;
             Editavel = editavel;
         }

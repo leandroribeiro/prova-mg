@@ -33,12 +33,12 @@ namespace ProvaMG.App.Controllers
             return View(indexViewModel);
         }
 
-        public IEnumerable<MunicipioViewModel> ObterMunicipiosPor(string uf)
+        public MunicipioPageListViewModel ObterMunicipiosPor(string uf, int pagina = 1)
         {
             if (string.IsNullOrWhiteSpace(uf) || uf == "0" || uf == "-1")
                 return null;
 
-            return _municipiosApiClient.Obter(uf);
+            return _municipiosApiClient.Obter(uf, pagina);
         }
 
 
