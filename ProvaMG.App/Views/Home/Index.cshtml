@@ -1,0 +1,99 @@
+﻿@using ProvaMG.App.Controllers
+@{
+    Layout = "_Layout1";
+    ViewData["Title"] = "Home Page";
+}
+@model IndexViewModel
+
+<!-- page-intro start-->
+<!-- ================ -->
+<div class="page-intro">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-home pr-10"></i><a href="index.html">Home</a>
+                    </li>
+                    <li class="active">Forms</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page-intro end -->
+
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container">
+
+    <div class="container">
+        <div class="row">
+
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-md-9">
+
+                <!-- page-title start -->
+                <!-- ================ -->
+                <h1 id="forms" class="page-title">Home</h1>
+                <br>
+
+
+                <!-- Forms start -->
+                <!-- ============================================================================== -->
+                <h2>Unidades Federativas</h2>
+                <select class="form-control" id="Unidades" name="Unidades">
+                    <option value="-1">- Selecione -</option>
+                    @foreach (var item in Model.Unidades)
+                    {
+                        <option>@item</option>
+                    }
+                </select>
+
+                <h2>Municípios</h2>
+                <br>
+                <table class="table table-hover" id="Municipios" name="Municipios">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>@Html.DisplayNameFor(model => model.Municipios.FirstOrDefault().Nome)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.Municipios)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Nome</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+            $('#Unidades').change(function () {
+                var selectedUnidade = $("#Unidades").val();
+                var municipiosTableBody = $('#Municipios tbody');
+                municipiosTableBody.empty();
+                if (selectedUnidade != null && selectedUnidade !== '') {
+                    $.getJSON('@Url.Action("ObterMunicipiosPor")', { uf: selectedUnidade }, function (municipios) {
+                        if (municipios != null && !jQuery.isEmptyObject(municipios))
+                        {
+                            
+                            $.each(municipios, function (index, municipio) {
+                                municipiosTableBody.append('<tr><td>' + municipio.id + '</td><td>' + municipio.nome + '</td></tr>');
+                            });
+                            
+                        }
+                    });
+                }
+            });
+    </script>
+}
