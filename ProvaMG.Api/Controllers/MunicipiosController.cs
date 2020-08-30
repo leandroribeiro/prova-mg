@@ -17,21 +17,21 @@ namespace ProvaMG.Api.Controllers
     public class MunicipiosController : ControllerBase
     {
         private const int PAGE_SIZE = 10;
-        
+
         private readonly IMunicipioRepository _repository;
 
         public MunicipiosController(IMunicipioRepository repository)
         {
             _repository = repository;
         }
-        
+
         [HttpGet()]
-        [ProducesResponseType(typeof(List<MunicipioViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<MunicipioViewModel>), (int) HttpStatusCode.OK)]
         public ActionResult<IList<MunicipioViewModel>> GetAllSync()
         {
             var municipios = _repository
                 .ObterMunicipios()
-                .Select(x=>new MunicipioViewModel(x))
+                .Select(x => new MunicipioViewModel(x))
                 .ToList();
 
             if (!municipios.Any())
@@ -41,26 +41,26 @@ namespace ProvaMG.Api.Controllers
 
             return municipios;
         }
-        
+
         [HttpPatch("{codigo:int}")]
-        [ProducesResponseType(typeof(IActionResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IActionResult), (int) HttpStatusCode.OK)]
         public IActionResult AlterarNome([FromRoute] int codigo, [FromBody] MunicipioRequest request)
         {
             var afetados = _repository.AlterarNome(request.Codigo, request.NovoNome);
 
             if (afetados <= 0)
                 return StatusCode((int) HttpStatusCode.InternalServerError);
-            
+
             return Ok();
         }
-        
+
         [HttpGet("{uf}")]
-        [ProducesResponseType(typeof(List<MunicipioViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<MunicipioViewModel>), (int) HttpStatusCode.OK)]
         public ActionResult<List<MunicipioViewModel>> GetAllSync(string uf)
         {
             var municipios = _repository
                 .ObterMunicipios(uf)
-                .Select(x=>new MunicipioViewModel(x))
+                .Select(x => new MunicipioViewModel(x))
                 .ToList();
 
             if (!municipios.Any())
@@ -70,9 +70,9 @@ namespace ProvaMG.Api.Controllers
 
             return new OkObjectResult(municipios);
         }
-        
+
         [HttpGet("{uf}/{page:int}")]
-        [ProducesResponseType(typeof(List<MunicipioViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<MunicipioViewModel>), (int) HttpStatusCode.OK)]
         public ActionResult<PagedResult<MunicipioViewModel>> GetAllSync(string uf, int page)
         {
             var municipios = _repository.ObterMunicipios(uf)
@@ -91,15 +91,13 @@ namespace ProvaMG.Api.Controllers
     [Serializable]
     public class MunicipioRequest
     {
-        [JsonProperty("codigo")]
-        public short Codigo { get; set; }
-        [JsonProperty("novoNome")]
-        public string NovoNome { get; set; }
+        [JsonProperty("codigo")] public short Codigo { get; set; }
+        [JsonProperty("novoNome")] public string NovoNome { get; set; }
 
         public MunicipioRequest()
         {
-            
         }
+
         public MunicipioRequest(short codigo, string novoNome)
         {
             Codigo = codigo;

@@ -10,5 +10,6 @@ namespace ProvaMG.Domain.Repositories
         IQueryable<Municipio> ObterMunicipios(string unidadeFederativa);
         IQueryable<Municipio> ObterMunicipios();
         int AlterarNome(short codigo, string novoNome);
+        Municipio ObterMunicipio(short codigo);
     }
 }

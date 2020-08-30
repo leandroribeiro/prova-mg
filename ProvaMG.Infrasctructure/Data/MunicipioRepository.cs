@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ProvaMG.Domain;
 using ProvaMG.Domain.Entities;
@@ -45,16 +46,25 @@ namespace ProvaMG.Infrasctructure.Data
         public int AlterarNome(short codigo, string novoNome)
         {
             var item = this.Context.Municipios.Find(codigo);
+            
             item.Nome = novoNome;
 
-            this.Context.Update(item);
-            
-            return this.Context.SaveChanges();
+            return AlterarNome(item);
+        }
+
+        public Municipio ObterMunicipio(short codigo)
+        {
+            return this.Context.Municipios.FirstOrDefault(x=>x.Codigo==codigo);
         }
 
         public int AlterarNome(Municipio municipio)
         {
-            return AlterarNome(municipio.Codigo, municipio.Nome);
+            if(!municipio.Editavel)
+                throw new ArgumentException("Este município não é editável");
+            
+            this.Context.Update(municipio);
+            
+            return this.Context.SaveChanges();
         }
     }
 }
