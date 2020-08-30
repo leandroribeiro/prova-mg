@@ -28,7 +28,7 @@ namespace ProvaMG.Infrasctructure.Data
         public IQueryable<Municipio> ObterMunicipios(string unidadeFederativa)
         {
             return ObterMunicipios()
-                .Where(m => m.UF == unidadeFederativa);
+                .Where(m => m.UF.ToUpper() == unidadeFederativa.ToUpper());
         }
 
         /// <summary>
