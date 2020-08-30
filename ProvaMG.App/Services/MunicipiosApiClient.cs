@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using Newtonsoft.Json;
 using ProvaMG.App.Controllers;
 using ProvaMG.App.Models;
@@ -21,9 +22,9 @@ namespace ProvaMG.App.Services
 
             response.EnsureSuccessStatusCode();
 
-            var ordersDraftResponse = response.Content.ReadAsStringAsync().Result;
+            var content = response.Content.ReadAsStringAsync().Result;
 
-            return JsonConvert.DeserializeObject<IEnumerable<MunicipioViewModel>>(ordersDraftResponse);
+            return JsonConvert.DeserializeObject<IEnumerable<MunicipioViewModel>>(content);
         }
         
         public MunicipioPageListViewModel Obter(string uf, int pagina)
@@ -32,27 +33,20 @@ namespace ProvaMG.App.Services
 
             response.EnsureSuccessStatusCode();
 
-            var ordersDraftResponse = response.Content.ReadAsStringAsync().Result;
+            var content = response.Content.ReadAsStringAsync().Result;
 
-            return JsonConvert.DeserializeObject<MunicipioPageListViewModel>(ordersDraftResponse);
+            return JsonConvert.DeserializeObject<MunicipioPageListViewModel>(content);
         }
-    }
 
-    public class MunicipioPageListViewModel
-    {
-        [JsonProperty("results")]
-        public IList<MunicipioViewModel> Results { get; set; }
-        [JsonProperty("currentPage")]
-        public int CurrentPage { get; set; }
-        [JsonProperty("pageCount")]
-        public int PageCount { get; set; }
-        [JsonProperty("pageSize")]
-        public int PageSize { get; set; }
-        [JsonProperty("rowCount")]
-        public int RowCount { get; set; }
-        [JsonProperty("firstRowOnPage")]
-        public int FirstRowOnPage { get; set; }
-        [JsonProperty("lastRowOnPage")]
-        public int LastRowOnPage { get; set; }
+        public bool AlterarNome(MunicipioRequest request)
+        {
+            var jsonRequest = JsonConvert.SerializeObject(request);
+            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+            var response = _httpClient.PatchAsync($"{UrlBase}{UrlsConfig.AlterNomeMunicipio(request.Codigo)}", content).Result;
+
+            response.EnsureSuccessStatusCode();
+
+            return true;
+        }
     }
 }

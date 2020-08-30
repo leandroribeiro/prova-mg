@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ProvaMG.Application;
 using ProvaMG.Domain;
+using ProvaMG.Domain.Repositories;
 using ProvaMG.Infrasctructure.Data;
 
 namespace ProvaMG.Api

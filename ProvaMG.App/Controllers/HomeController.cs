@@ -33,14 +33,25 @@ namespace ProvaMG.App.Controllers
             return View(indexViewModel);
         }
 
-        public MunicipioPageListViewModel ObterMunicipiosPor(string uf, int pagina = 1)
+        public IActionResult ObterMunicipiosPor(string uf, int pagina = 1)
         {
             if (string.IsNullOrWhiteSpace(uf) || uf == "0" || uf == "-1")
-                return null;
+                return BadRequest();
 
-            return _municipiosApiClient.Obter(uf, pagina);
+            var municipios = _municipiosApiClient.Obter(uf, pagina);
+            
+            return new OkObjectResult(municipios);
         }
 
+        public IActionResult AlterarNomeMunicipio(short codigo, string novoNome)
+        {
+            if (codigo <= 0 || string.IsNullOrWhiteSpace(novoNome))
+                return BadRequest();
+
+            _municipiosApiClient.AlterarNome(new MunicipioRequest(codigo, novoNome));
+            
+            return Ok();
+        } 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

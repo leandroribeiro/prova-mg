@@ -1,5 +1,6 @@
 ﻿using System;
 using ProvaMG.Domain;
+using ProvaMG.Domain.Repositories;
 
 namespace ProvaMG.Application
 {

@@ -80,5 +80,21 @@ namespace ProvaMG.Infrasctructure.IntegrationTests
             Assert.True(municipios!=null, "Retorno não pode ser nulo");
             Assert.True(municipios.Count>0);
         }
+        
+        [Theory]
+        [InlineData("RJ")]
+        public void Deve_Alterar_Com_Sucesso_Nome_De_Municipio_Divisivel_Por_Tres(string unidadeFederativa)
+        {
+            var municipio = _repository
+                .ObterMunicipios(unidadeFederativa)
+                .ToList()
+                .First(x=>x.Editavel);
+
+            municipio.Nome += municipio.Nome + " *EDITADO* ";
+
+            var regitrosAfetados = _repository.AlterarNome(municipio);
+            
+            Assert.True(regitrosAfetados>0);
+        }
     }
 }

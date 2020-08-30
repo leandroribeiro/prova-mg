@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ProvaMG.Domain
+﻿namespace ProvaMG.Domain.Entities
 {
     public class Usuario
     {

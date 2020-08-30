@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ProvaMG.Api.ViewModels;
 using ProvaMG.Application;
 using ProvaMG.Domain;
+using ProvaMG.Domain.Repositories;
 using ProvaMG.Infrasctructure;
 
 namespace ProvaMG.Api.Controllers
@@ -39,6 +42,18 @@ namespace ProvaMG.Api.Controllers
             return municipios;
         }
         
+        [HttpPatch("{codigo:int}")]
+        [ProducesResponseType(typeof(IActionResult), (int)HttpStatusCode.OK)]
+        public IActionResult AlterarNome([FromRoute] int codigo, [FromBody] MunicipioRequest request)
+        {
+            var afetados = _repository.AlterarNome(request.Codigo, request.NovoNome);
+
+            if (afetados <= 0)
+                return StatusCode((int) HttpStatusCode.InternalServerError);
+            
+            return Ok();
+        }
+        
         [HttpGet("{uf}")]
         [ProducesResponseType(typeof(List<MunicipioViewModel>), (int)HttpStatusCode.OK)]
         public ActionResult<List<MunicipioViewModel>> GetAllSync(string uf)
@@ -53,7 +68,7 @@ namespace ProvaMG.Api.Controllers
                 return NotFound();
             }
 
-            return municipios;
+            return new OkObjectResult(municipios);
         }
         
         [HttpGet("{uf}/{page:int}")]
@@ -70,6 +85,25 @@ namespace ProvaMG.Api.Controllers
             }
 
             return municipios;
+        }
+    }
+
+    [Serializable]
+    public class MunicipioRequest
+    {
+        [JsonProperty("codigo")]
+        public short Codigo { get; set; }
+        [JsonProperty("novoNome")]
+        public string NovoNome { get; set; }
+
+        public MunicipioRequest()
+        {
+            
+        }
+        public MunicipioRequest(short codigo, string novoNome)
+        {
+            Codigo = codigo;
+            NovoNome = novoNome;
         }
     }
 }

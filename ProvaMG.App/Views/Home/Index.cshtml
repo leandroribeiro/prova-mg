@@ -82,24 +82,70 @@
     </div>
 </section>
 
+@section Styles {
+    <style type="text/css">
+    .txtedit {
+     display: none;
+     width: 99%;
+     height: 30px;
+    }
+    </style>
+}
+
 @section Scripts {
     <script type="text/javascript">
             $(document).ready(function () { 
                      
                 $('#Unidades').change(carregarMunicipios);
                 
+                $( "#Municipios tbody" ).on( "click", "a", function( event ) {
+                    var elem = $( this );
+                    elem.next('.txtedit').show().focus();
+                    elem.hide();
+                });
+                
+                $( "#Municipios tbody" ).on( "focusout", "input.txtedit", function( event ) {
+                    var elem = $( this );
+                    var municipioCodigo = elem.attr('data-id');
+                    var municipioNovoNome = elem.val();
+                    
+                    // TODO Waiting?
+                    elem.hide();
+                    
+                    elem.prev('a').show();
+                    elem.prev('a').text(municipioNovoNome);
+                    
+                    editar(municipioCodigo, municipioNovoNome);
+                });
+                
                 $( "#Municipios tfoot" ).on( "click", "a", function( event ) {
                     var elem = $( this );
+                    var indicePagina = elem.attr('data-pagina'); 
                     
-                    paginar(elem.attr('data-pagina'));
+                    paginar(indicePagina);
                 });
             });
+            
+            function editar(municipioCodigo, municipioNovoNome) {
+            
+                // TODO Waiting?
+                $.post('@Url.Action("AlterarNomeMunicipio")', { codigo: municipioCodigo, novoNome: municipioNovoNome }, function (data) {
+                    if (data != null && !jQuery.isEmptyObject(data))
+                    {
+                        
+                    }
+                })
+                .fail(function() {
+                    alert( "error" );
+                });
+            }  
             
             function gerarPaginador(target, currentPage, pageCount){
                 
                 var paginacao = '<tr><td colspan="2">';
                 
                 for (var i = 1; i < pageCount; i++) {
+                    
                     if (currentPage === i)
                         paginacao += '<strong>';
                     
@@ -127,7 +173,6 @@
                     $.getJSON('@Url.Action("ObterMunicipiosPor")', { uf: uf, pagina: pagina }, function (data) {
                         if (data != null && !jQuery.isEmptyObject(data))
                         {
-                            console.log(data);
                             $.each(data.results, function (index, municipio) {
                                 
                                 var linha = '<tr>';
@@ -138,18 +183,20 @@
                                 //nome
                                 linha += '<td>';
                                 if(municipio.editavel)
-                                    linha += '<a href="#">';
-                                
-                                linha += municipio.nome;
-                                
-                                if(municipio.editavel === true)
-                                    linha += '</a>';
+                                {
+                                    linha += '<a href="#" data-id="' + municipio.codigo + '">' + municipio.nome + '</a>';
+                                    linha += '<input type="text" class="txtedit" value="' + municipio.nome + '" id="txtedit_' + municipio.codigo + '" data-id="' + municipio.codigo + '">';
+                                }
+                                else
+                                    linha += municipio.nome;
                                 
                                 linha += '</td>';
                                 linha += '</tr>';
                             
                                 municipiosTableBody.append(linha);
                             });
+                            
+                            
                        
                             gerarPaginador(municipiosTableFooter, data.currentPage, data.pageCount);
                             

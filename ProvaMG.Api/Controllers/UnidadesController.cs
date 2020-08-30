@@ -3,6 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using ProvaMG.Application;
 using ProvaMG.Domain;
+using ProvaMG.Domain.Repositories;
 using ProvaMG.Infrasctructure;
 
 namespace ProvaMG.Api.Controllers

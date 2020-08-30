@@ -1,4 +1,5 @@
 ﻿using ProvaMG.Domain;
+using ProvaMG.Domain.Entities;
 
 namespace ProvaMG.Api.ViewModels
 {

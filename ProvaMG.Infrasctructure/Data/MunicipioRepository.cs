@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ProvaMG.Domain;
+using ProvaMG.Domain.Entities;
+using ProvaMG.Domain.Repositories;
 
 namespace ProvaMG.Infrasctructure.Data
 {
@@ -38,6 +40,21 @@ namespace ProvaMG.Infrasctructure.Data
             return this.Context.Municipios
                 .Where(x => x.Ativo == true)
                 .OrderBy(x => x.Nome);
+        }
+
+        public int AlterarNome(short codigo, string novoNome)
+        {
+            var item = this.Context.Municipios.Find(codigo);
+            item.Nome = novoNome;
+
+            this.Context.Update(item);
+            
+            return this.Context.SaveChanges();
+        }
+
+        public int AlterarNome(Municipio municipio)
+        {
+            return AlterarNome(municipio.Codigo, municipio.Nome);
         }
     }
 }

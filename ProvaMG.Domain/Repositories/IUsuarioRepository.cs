@@ -1,4 +1,6 @@
-﻿namespace ProvaMG.Domain
+﻿using ProvaMG.Domain.Entities;
+
+namespace ProvaMG.Domain.Repositories
 {
     public interface IUsuarioRepository
     {

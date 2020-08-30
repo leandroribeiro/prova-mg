@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using ProvaMG.Domain;
+using ProvaMG.Domain.Entities;
+using ProvaMG.Domain.Repositories;
 
 namespace ProvaMG.Infrasctructure.Data
 {

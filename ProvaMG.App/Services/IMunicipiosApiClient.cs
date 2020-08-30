@@ -7,5 +7,6 @@ namespace ProvaMG.App.Services
     {
         IEnumerable<MunicipioViewModel> Obter(string uf);
         MunicipioPageListViewModel Obter(string uf, int pagina);
+        public bool AlterarNome(MunicipioRequest request);
     }
 }

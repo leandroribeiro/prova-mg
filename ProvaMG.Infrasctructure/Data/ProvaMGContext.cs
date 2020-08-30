@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProvaMG.Domain;
+using ProvaMG.Domain.Entities;
 
 namespace ProvaMG.Infrasctructure.Data
 {
