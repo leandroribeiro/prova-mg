@@ -3,7 +3,7 @@
 Exercícios propostos para prova da empresa fictícia MG, utilizando .NET Core 3.1, Swagger Tools, XUnit, MSSQL Server 2019 Linux, Docker e Docker Compose 
 
 <p align="center">
-<img src="./assets/screen02.png" alt="Home Page" width="338">
+<img src="./assets/screen02.png" alt="Home Page" width="438">
 </p>
 
 # <ADICIONAR O DIAGRAMA DA APLICAÇÃO>
