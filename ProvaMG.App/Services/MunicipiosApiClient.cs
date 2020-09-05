@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using ProvaMG.App.Controllers;
 using ProvaMG.App.Models;
@@ -11,7 +12,7 @@ namespace ProvaMG.App.Services
     {
         private readonly HttpClient _httpClient;
 
-        public MunicipiosApiClient(HttpClient httpClient)
+        public MunicipiosApiClient(IConfiguration configuration, HttpClient httpClient) : base(configuration)
         {
             _httpClient = httpClient;
         }

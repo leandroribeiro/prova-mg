@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace ProvaMG.App.Services
@@ -9,7 +10,7 @@ namespace ProvaMG.App.Services
     {
         private readonly HttpClient _httpClient;
 
-        public UnidadeFederativaApiClient(HttpClient httpClient)
+        public UnidadeFederativaApiClient(IConfiguration configuration, HttpClient httpClient) : base(configuration)
         {
             _httpClient = httpClient;
         }
