@@ -16,7 +16,9 @@ Exercício proposto para prova da empresa fictícia MG, utilizando:
 <img src="./assets/screen02.png" alt="Home Page" width="338">
 </p>
 
-# <ADICIONAR O DIAGRAMA DA APLICAÇÃO>
+<p align="center">
+<img src="./assets/basic-diagram1.png" alt="Digrama Básico" width="338">
+</p>
 
 ## Instruções para execução
 
