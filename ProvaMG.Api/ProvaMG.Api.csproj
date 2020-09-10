@@ -4,10 +4,22 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\ProvaMG.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\ProvaMG.Api.xml</DocumentationFile>
+    </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\ProvaMG.Application\ProvaMG.Application.csproj" />
       <ProjectReference Include="..\ProvaMG.Domain\ProvaMG.Domain.csproj" />
       <ProjectReference Include="..\ProvaMG.Infrasctructure\ProvaMG.Infrasctructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
     </ItemGroup>
 
 

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using ProvaMG.Api.ViewModels;
 using ProvaMG.Application;
 using ProvaMG.Domain;
@@ -85,23 +83,6 @@ namespace ProvaMG.Api.Controllers
             }
 
             return municipios;
-        }
-    }
-
-    [Serializable]
-    public class MunicipioRequest
-    {
-        [JsonProperty("codigo")] public short Codigo { get; set; }
-        [JsonProperty("novoNome")] public string NovoNome { get; set; }
-
-        public MunicipioRequest()
-        {
-        }
-
-        public MunicipioRequest(short codigo, string novoNome)
-        {
-            Codigo = codigo;
-            NovoNome = novoNome;
         }
     }
 }

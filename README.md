@@ -9,7 +9,11 @@ Exercício proposto para prova da empresa fictícia MG, utilizando:
  - MSSQL Server 2019 Linux (Database); 
 
 <p align="center">
-<img src="./assets/screen02.png" alt="Home Page" width="438">
+<img src="./assets/screen01.png" alt="Swagger UI" width="338">
+</p>
+
+<p align="center">
+<img src="./assets/screen02.png" alt="Home Page" width="338">
 </p>
 
 # <ADICIONAR O DIAGRAMA DA APLICAÇÃO>
