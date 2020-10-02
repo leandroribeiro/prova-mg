@@ -25,11 +25,6 @@ namespace ProvaMG.Api.Controllers
         {
             var unidades = _repository.ObterUnidadesFederativas();
 
-            if (unidades is null)
-            {
-                return NotFound();
-            }
-
             return new OkObjectResult(unidades);
         }
     }

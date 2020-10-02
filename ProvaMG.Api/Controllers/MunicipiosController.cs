@@ -32,11 +32,6 @@ namespace ProvaMG.Api.Controllers
                 .Select(x => new MunicipioViewModel(x))
                 .ToList();
 
-            if (!municipios.Any())
-            {
-                return NotFound();
-            }
-
             return municipios;
         }
 
@@ -61,11 +56,6 @@ namespace ProvaMG.Api.Controllers
                 .Select(x => new MunicipioViewModel(x))
                 .ToList();
 
-            if (!municipios.Any())
-            {
-                return NotFound();
-            }
-
             return new OkObjectResult(municipios);
         }
 
@@ -76,11 +66,6 @@ namespace ProvaMG.Api.Controllers
             var municipios = _repository.ObterMunicipios(uf)
                 .Select(x => new MunicipioViewModel(x))
                 .GetPaged(page, PAGE_SIZE);
-
-            if (municipios is null)
-            {
-                return NotFound();
-            }
 
             return municipios;
         }
