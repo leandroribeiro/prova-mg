@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ProvaMG.Domain;
 using ProvaMG.Domain.Entities;
 using ProvaMG.Domain.Repositories;
@@ -10,12 +11,25 @@ namespace ProvaMG.Infrasctructure.Data
         public UsuarioRepository(ProvaMGContext context): base(context)
         {
         }
-        public Usuario Obter(string email, string senha)
+        public Usuario Obter(string email)
         {
-            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
+            if (string.IsNullOrWhiteSpace(email))
                 return null;
             
-            return this.Context.Usuarios.FirstOrDefault(x => x.Email == email && x.Password == senha);
+            return this.Context.Usuarios.FirstOrDefault(x => x.Email == email);
+        }
+
+        public Usuario Obter(int id)
+        {
+            if (id <= 0)
+                return null;
+            
+            return this.Context.Usuarios.FirstOrDefault(x => x.Id == id);
+        }
+
+        public IEnumerable<Usuario> ObterTodos()
+        {
+            return this.Context.Usuarios.ToList();
         }
     }
 }

@@ -13,8 +13,9 @@ namespace ProvaMG.Application.IntegrationTests
 
         public AutenticacaoAppServiceTests() : base()
         {
+            var settings = new AppSettings("QUALQUER-COISA");
             var repository = new UsuarioRepository(Context);
-            _appService = new AutenticacaoAppService(repository);
+            _appService = new AutenticacaoAppService(settings, repository);
         }
         
         [Fact]
@@ -25,7 +26,8 @@ namespace ProvaMG.Application.IntegrationTests
 
             var resultado = _appService.Login(email, senha);
             
-            Assert.True(resultado);
+            Assert.NotNull(resultado);
+            Assert.NotEmpty(resultado.Token);
         }
         
         [Fact]
@@ -36,7 +38,7 @@ namespace ProvaMG.Application.IntegrationTests
 
             var resultado = _appService.Login(email, senha);
             
-            Assert.False(resultado);
+            Assert.Null(resultado);
         }
         
         [Theory()]
@@ -46,7 +48,7 @@ namespace ProvaMG.Application.IntegrationTests
         {
             var resultado = _appService.Login(email, senha);
             
-            Assert.False(resultado);
+            Assert.Null(resultado);
         }
         
     }

@@ -13,10 +13,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using ProvaMG.Application;
 using ProvaMG.Domain;
 using ProvaMG.Domain.Repositories;
+using ProvaMG.Infrasctructure;
 using ProvaMG.Infrasctructure.Data;
 
 namespace ProvaMG.Api
@@ -33,8 +35,15 @@ namespace ProvaMG.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
             
+            // configure strongly typed settings object
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            // Explicitly register the settings object by delegating to the IOptions object
+            services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<AppSettings>>().Value);
+
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<ProvaMGContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
@@ -78,7 +87,16 @@ namespace ProvaMG.Api
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();                
+
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
             

@@ -15,15 +15,15 @@ namespace ProvaMG.Api.Controllers
             _appService = appService;
         }
         
-        [HttpPost("login")]
-        public IActionResult Login(LoginViewModel request)
+        [HttpPost]
+        public IActionResult Login(LoginRequest request)
         {
-            var autorizado = _appService.Login(request.Email, request.Senha);
+             var response = _appService.Login(request.Email, request.Senha);
 
-            if (autorizado)
-                return Ok();
-            
-            return Unauthorized();
+            if (response == null)
+                return BadRequest(new { message = "Usuário ou senha está incorreta." });
+
+            return Ok(response);
         }
     }
 }
