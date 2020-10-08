@@ -1,0 +1,55 @@
+@using ProvaMG.App.Controllers
+@{
+    Layout = "_Layout1";
+    ViewData["Title"] = "Home Page";
+}
+@model IndexViewModel
+
+<!-- page-intro start-->
+<!-- ================ -->
+<div class="page-intro">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="active">Autenticação</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- page-intro end -->
+
+<!-- main-container start -->
+<!-- ================ -->
+<section class="main-container">
+
+    <div class="container">
+        <div class="row">
+
+            <!-- main start -->
+            <!-- ================ -->
+            <div class="main col-md-9">
+
+                <!-- page-title start -->
+                <!-- ================ -->
+                <h1 id="forms" class="page-title">Autenticação</h1>
+                <br>
+
+                <div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    @using (Html.BeginForm())
+                    {
+                        <input type="email" name="email" id="email">
+                        <input type="password" name="senha" id="senha">
+                        <button type="submit" name="btnLogin" id="btnLogin" value="Entrar">Entrar</button>
+                    }
+
+                </div>
+
+            </div>
+            
+        </div>
+    </div>
+</section>

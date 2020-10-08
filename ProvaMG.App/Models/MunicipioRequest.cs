@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ProvaMG.App.Services
+namespace ProvaMG.App.Models
 {
     public class MunicipioRequest
     {

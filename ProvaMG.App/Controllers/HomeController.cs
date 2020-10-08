@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ProvaMG.App.Models;
@@ -21,6 +22,7 @@ namespace ProvaMG.App.Controllers
             _municipiosApiClient = municipiosApiClient;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             var unidades = _unidadeApiClient.ObterTodas();
@@ -33,6 +35,7 @@ namespace ProvaMG.App.Controllers
             return View(indexViewModel);
         }
 
+        [Authorize]
         public IActionResult ObterMunicipiosPor(string uf, int pagina = 1)
         {
             if (string.IsNullOrWhiteSpace(uf) || uf == "0" || uf == "-1")
@@ -43,6 +46,7 @@ namespace ProvaMG.App.Controllers
             return new OkObjectResult(municipios);
         }
 
+        [Authorize]
         public IActionResult AlterarNomeMunicipio(short codigo, string novoNome)
         {
             if (codigo <= 0 || string.IsNullOrWhiteSpace(novoNome))
