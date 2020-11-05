@@ -25,16 +25,18 @@ namespace ProvaMG.App.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            var unidades = _unidadeApiClient.ObterTodas();
-
-            var indexViewModel = new IndexViewModel()
-            {
-                Unidades = unidades,
-            };
-
-            return View(indexViewModel);
+            return View();
         }
 
+        [Authorize]
+        public IActionResult ObterUnidades()
+        {
+
+            var unidades = _unidadeApiClient.ObterTodas();
+            
+            return new OkObjectResult(unidades);
+        }
+        
         [Authorize]
         public IActionResult ObterMunicipiosPor(string uf, int pagina = 1)
         {
