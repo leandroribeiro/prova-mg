@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using ProvaMG.App.Models;
 
@@ -17,17 +18,20 @@ namespace ProvaMG.App.Services
 
         public LoginResponse Login(LoginRequest request)
         {
-            var jsonRequest = JsonConvert.SerializeObject(request);
-            
-            var contentRequest = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
-
-            var response = _httpClient.PostAsync($"{UrlBase}{UrlsConfig.Autenticar}", contentRequest).Result;
-
-            if(response.IsSuccessStatusCode)
+            if (request.Validate())
             {
-                var contentResponse = response.Content.ReadAsStringAsync().Result;
+                var jsonRequest = JsonConvert.SerializeObject(request);
 
-                return JsonConvert.DeserializeObject<LoginResponse>(contentResponse);
+                var contentRequest = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+
+                var response = _httpClient.PostAsync($"{UrlBase}{UrlsConfig.Autenticar}", contentRequest).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var contentResponse = response.Content.ReadAsStringAsync().Result;
+
+                    return JsonConvert.DeserializeObject<LoginResponse>(contentResponse);
+                }
             }
 
             return null;

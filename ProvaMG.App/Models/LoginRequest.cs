@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
@@ -14,5 +15,10 @@ namespace ProvaMG.App.Models
         [JsonRequired]
         [JsonProperty("senha")]
         public string Senha { get; set; }
+
+        public bool Validate()
+        {
+            return (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Senha));
+        }
     }
 }
