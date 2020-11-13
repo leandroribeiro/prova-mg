@@ -11,7 +11,7 @@
 (function($){
 	$(document).ready(function(){
 
-		$(window).load(function() {
+		$(window).on('load', function() {
 			$("body").removeClass("no-trans");
 		});
 		// Enable Smooth Scroll only on Chrome and only on Win and Linux Systems
@@ -542,7 +542,7 @@
 		// Isotope filters
 		//-----------------------------------------------
 		if ($('.isotope-container').length>0 || $('.masonry-grid').length>0 || $('.masonry-grid-fitrows').length>0) {
-			$(window).load(function() {
+			$(window).on('load', function() {
 				$('.masonry-grid').isotope({
 					itemSelector: '.masonry-grid-item',
 					layoutMode: 'masonry'
@@ -572,7 +572,7 @@
 		//hc-tabs
 		//-----------------------------------------------
 		if ($('.hc-tabs').length>0) {
-			$(window).load(function() {
+			$(window).on('load', function() {
 				var currentTab = $(".hc-tabs .nav.nav-tabs li.active a").attr("href"),
 				tabsImageAnimation = $(".hc-tabs-top").find("[data-tab='" + currentTab + "']").attr("data-tab-animation-effect");
 				$(".hc-tabs-top").find("[data-tab='" + currentTab + "']").addClass("current-img show " + tabsImageAnimation + " animated");
@@ -650,7 +650,7 @@
 				}
 
 				// Line Charts Initialization
-				$(window).load(function() {
+				$(window).on('load', function() {
 					var ctx = document.getElementById("lines-graph").getContext("2d");
 					window.newLine = new Chart(ctx).Line(lineChartData, {
 						responsive: true,
@@ -681,7 +681,7 @@
 				}
 				
 				// Bar Charts Initialization		
-				$(window).load(function() {
+				$(window).on('load', function() {
 					var ctx = document.getElementById("bars-graph").getContext("2d");
 					window.myBar = new Chart(ctx).Bar(barChartData, {
 						responsive : true
@@ -712,7 +712,7 @@
 				];
 
 				// Pie Chart Initialization
-				$(window).load(function() {
+				$(window).on('load', function() {
 					var ctx = document.getElementById("pie-graph").getContext("2d");
 					window.myPie = new Chart(ctx).Pie(pieData);
 				});
@@ -741,7 +741,7 @@
 				];
 				
 				// Doughnut Chart Initialization
-				$(window).load(function() {
+				$(window).on('load', function() {
 					var ctx = document.getElementById("doughnut-graph").getContext("2d");
 					window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {responsive : true});
 				});
@@ -1065,7 +1065,7 @@
 		// Affix plugin
 		//-----------------------------------------------
 		if ($("#affix").length>0) {
-			$(window).load(function() {
+			$(window).on('load', function() {
 
 				var affixBottom = $(".footer").outerHeight(true) + $(".subfooter").outerHeight(true) + $(".blogpost footer").outerHeight(true),
 				affixTop = $("#affix").offset().top;
