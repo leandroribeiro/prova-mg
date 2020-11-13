@@ -188,13 +188,18 @@
                                     //TODO
                                 }
                                 
-                                Swal.fire({
-                                  position: 'top-end',
-                                  icon: 'success',
-                                  title: 'Alteração realizada com sucesso!',
+                                const Toast = Swal.mixin({
+                                  toast: true,
+                                  position: 'top',
                                   showConfirmButton: false,
-                                  timer: 3000
+                                  timer: 3000,
+                                  timerProgressBar: true
                                 })
+
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: '<h4>Alteração realizada com sucesso!</h4>'
+                                });
                                 
                             })
                         .fail(function() {
@@ -318,7 +323,7 @@
 
                             });
 
-                        _content.on("keypress", "table tbody input.txtedit", function(event){
+                        _content.on("keypress", "table tbody input.txtedit", function(event) {
                             event.stopImmediatePropagation();
 
                             // PRESS ENTER
@@ -326,13 +331,6 @@
                                 event.preventDefault();
                                 App.editarMunicipio($(this));
                             }
-
-                        });
-
-                        _content.on("focusout", "table tbody input.txtedit", function(event){
-                            event.stopImmediatePropagation();
-
-                            App.editarMunicipio($(this));
 
                         });
 
