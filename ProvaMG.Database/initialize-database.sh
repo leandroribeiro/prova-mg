@@ -19,11 +19,11 @@ echo "2/4 ) Consultando os bancos de dados"
   # if [ $DATAEMPTY -eq 1 ];then  
     
     echo "3/4 Carregando massa de dados"
-    /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P $SA_PASSWORD -Q "TRUNCATE table tb_usuario"
+    /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P $SA_PASSWORD -Q "TRUNCATE table $DBNAME.dbo.tb_usuario"
     /opt/mssql-tools/bin/bcp $DBNAME.dbo.tb_usuario in "/home/usuarios.csv" -c -t ',' -S localhost,1433 -U sa -P $SA_PASSWORD
   
     echo "4/4 Carregando massa de dados"
-    /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P $SA_PASSWORD -Q "TRUNCATE table tipo_municipio_cod"
+    /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U sa -P $SA_PASSWORD -Q "TRUNCATE table $DBNAME.dbo.tb_tipo_municipio"
     /opt/mssql-tools/bin/bcp $DBNAME.dbo.tb_tipo_municipio in "/home/municipios.csv" -c -t ',' -S localhost,1433 -U sa -P $SA_PASSWORD
     
   # else
