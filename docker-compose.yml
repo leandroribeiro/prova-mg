@@ -1,0 +1,66 @@
+version: '3.4'
+
+networks:
+
+  backend:
+    driver: bridge
+
+services:
+
+  provamg_api:
+    image: ${REGISTRY:-provamg}/api:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: "provamg_api"
+    build:
+      context: .
+      dockerfile: ProvaMG.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=provamg_database,1433;Database=ProvaMG;User Id=sa;Password=Dev123456789;
+    ports:
+      - "8081:80"
+    depends_on:
+      - provamg_database
+      # - provamg_cache
+    networks: 
+      - backend 
+
+  provamg_app:
+    image: ${REGISTRY:-provamg}/app:${PLATFORM:-linux}-${TAG:-latest}
+    container_name: "provamg_app"
+    build:
+      context: .
+      dockerfile: ProvaMG.App/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      # - ASPNETCORE_ENVIRONMENT=Production
+      - Api__UrlBase=http://provamg_api:80
+    ports:
+      - "8080:80"
+    depends_on:
+      - provamg_api      
+    networks: 
+      - backend       
+      
+  provamg_database:
+    container_name: provamg_database
+    image: ${REGISTRY:-provamg}/database:${PLATFORM:-linux}-${TAG:-latest}
+    mem_limit: 2G
+    build:
+      context: .
+      dockerfile: ProvaMG.Database/Dockerfile
+    ports:
+      - "5434:1433"
+    networks:
+      - backend
+
+  # provamg_cache:
+  #   image: redis
+  #   container_name: provamg_cache
+  #   command: redis-server /usr/local/etc/redis/redis.conf
+  #   volumes:
+  #     - ./redis.conf:/usr/local/etc/redis/redis.conf
+  #   ports:
+  #     - "6379:6379"        
+  #   networks:
+  #     - backend
