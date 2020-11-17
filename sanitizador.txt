@@ -1,0 +1,2 @@
+# Substituir o file_path pelo nome do arquivo
+# sed -i 's/$//' file_path
