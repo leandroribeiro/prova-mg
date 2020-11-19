@@ -1,33 +1,60 @@
-# Prova MG
+<br />
+<p align="center">
+  <h1 align="center">Prova MG</h1>
 
-Exercício proposto para prova da empresa fictícia MG, utilizando:
+  <p align="center">
+  Proposed exercises to exam to the fictional company MG
+  </p>
+</p>
 
- - ASP.NET Core 3.1;
+<!-- TABLE OF CONTENTS -->
+## Table of Contents
+
+* [Technologies](#technologies)
+  * [Backend](#backend)
+  * [Frontend with Razor](#frontend-razor-and-jquery-version)
+  * [Frontend with JQuery Plugins](#frontend-jquery-and-plugins-version)
+* [Gallery](#gallery)
+* [Setup](#setup)
+
+## Technologies
+
+### Backend
+
+ - ASP .NET Core 3.1;
  - Swagger Tools;
  - XUnit (Testes de Integração);
  - Entity Framework Core (ORM);
  - MSSQL Server 2019 Linux (Database); 
+ - Docker;
+ - Docker Compose;
 
-### Galeria
+### Frontend Razor and JQuery Version
+https://github.com/leandroribeiro/prova-mg/tree/razor-and-jquery
 
-###### API com Swagger UI
+- Razor
+- JavaScript;
+- JQuery
 
-<p align="center">
-<img src="./assets/screen01.png" alt="Swagger UI" width="338">
-</p>
+### Frontend JQuery and Plugins Version
+https://github.com/leandroribeiro/prova-mg/tree/jquery-plugins
 
-###### Home Page
+ - JavaScript;
+ - JQuery ++Object Literal Module;
+ - Handlebars | https://handlebarsjs.com/;
+ - Select2 | sweetalert2 | https://sweetalert2.github.io/;
+ - JQuery Loading Overlay | https://gasparesganga.com/labs/jquery-loading-overlay/
 
-<p align="center">
-<img src="./assets/screen02.png" alt="Home Page" width="338">
-</p>
+## Gallery
 
-###### Diagrama básico
+<img src="https://raw.githubusercontent.com/leandroribeiro/prova-mg/master/assets/screen01.png" width="45%" alt="Swagger UI"></img>
+<img src="https://raw.githubusercontent.com/leandroribeiro/prova-mg/master/assets/screen02.png" width="45%" alt="Home Page"></img> 
+<img src="https://raw.githubusercontent.com/leandroribeiro/prova-mg/master/assets/basic-diagram1.png" width="45%" alt="Diagrama Básico"></img> 
 
-<p align="center">
-<img src="./assets/basic-diagram1.png" alt="Digrama Básico" width="338">
-</p>
+## Setup
 
-## Instruções para execução
+```
+docker-compose up
+```
 
-Em breve...
+In your browser open http://localhost:8080
