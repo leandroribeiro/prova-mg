@@ -29,26 +29,43 @@
 
             <!-- main start -->
             <!-- ================ -->
-            <div class="main col-md-9">
-
-                <!-- page-title start -->
-                <!-- ================ -->
-                <h1 id="forms" class="page-title">Autenticação</h1>
-                <br>
-
-                <div>
+            <div class="main object-non-visible" data-animation-effect="fadeInDownSmall" data-effect-delay="300">
+                <div class="form-block center-block">
+                    <h2 class="title">Autenticação</h2>
+                    <hr>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Login", "Conta", null, FormMethod.Post, true, new { @class="form-horizontal" }))
                     {
-                        <input type="email" name="email" id="email">
-                        <input type="password" name="senha" id="senha">
-                        <button type="submit" name="btnLogin" id="btnLogin" value="Entrar">Entrar</button>
+                        <div class="form-group has-feedback">
+                            <label for="inputUserName" class="col-sm-3 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Email" required>
+                                <i class="fa fa-user form-control-feedback"></i>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label for="inputPassword" class="col-sm-3 control-label">Senha</label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha" required>
+                                <i class="fa fa-lock form-control-feedback"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-8">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Lembrar-me.
+                                    </label>
+                                </div>											
+                                <button type="submit" name="btnLogin" id="btnLogin" class="btn btn-group btn-default btn-sm">Entrar</button>
+                            </div>
+                        </div>
                     }
-
+                   
                 </div>
-
             </div>
+            <!-- main end -->
             
         </div>
     </div>
