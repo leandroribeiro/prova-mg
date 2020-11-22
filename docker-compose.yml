@@ -54,6 +54,14 @@ services:
     networks:
       - backend
 
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - 80:80
+      - 5341:5341
+    environment:
+      ACCEPT_EULA: Y
+
   # provamg_cache:
   #   image: redis
   #   container_name: provamg_cache
