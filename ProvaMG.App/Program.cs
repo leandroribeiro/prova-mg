@@ -24,7 +24,7 @@ namespace ProvaMG.App
 
             try
             {
-                Log.Information("Aplicação iniciando");
+                Log.Information("Aplicação iniciando...");
 
                 CreateHostBuilder(args).Build().Run();
             }
@@ -42,8 +42,11 @@ namespace ProvaMG.App
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+                .UseSerilog() //Uses Serilog instead of default .NET Logger
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
         }
     }
 }
