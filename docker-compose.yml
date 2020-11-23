@@ -21,6 +21,7 @@ services:
       - "8081:80"
     depends_on:
       - provamg_database
+      - provamg_log 
       # - provamg_cache
     networks: 
       - backend 
@@ -35,10 +36,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       # - ASPNETCORE_ENVIRONMENT=Production
       - Api__UrlBase=http://provamg_api:80
+      - Serilog__WriteTo__0__Args__serverUrl=http://provamg_log:80
     ports:
       - "8080:80"
     depends_on:
-      - provamg_api      
+      - provamg_api
+      - provamg_log
     networks: 
       - backend       
       
@@ -54,6 +57,19 @@ services:
     networks:
       - backend
 
+  provamg_log:
+    container_name: provamg_log
+    image: datalust/seq:latest
+    mem_limit: 1G
+    ports:
+      - 8082:80
+      - 5341:5341
+    environment:
+      ACCEPT_EULA: Y
+    networks:
+      - backend
+      
+      
   # provamg_cache:
   #   image: redis
   #   container_name: provamg_cache

@@ -1,18 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.Api", "ProvaMG.Api\ProvaMG.Api.csproj", "{CFD9C230-3EBA-4B08-89C4-6E4BB1240EA9}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProvaMG.Api", "ProvaMG.Api\ProvaMG.Api.csproj", "{CFD9C230-3EBA-4B08-89C4-6E4BB1240EA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.Application", "ProvaMG.Application\ProvaMG.Application.csproj", "{E3D713B2-3BEA-4621-9D69-D934FAF0AF81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProvaMG.Application", "ProvaMG.Application\ProvaMG.Application.csproj", "{E3D713B2-3BEA-4621-9D69-D934FAF0AF81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.Domain", "ProvaMG.Domain\ProvaMG.Domain.csproj", "{F467F9C1-E650-4FD9-9114-6780D08E1B2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProvaMG.Domain", "ProvaMG.Domain\ProvaMG.Domain.csproj", "{F467F9C1-E650-4FD9-9114-6780D08E1B2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.Infrasctructure", "ProvaMG.Infrasctructure\ProvaMG.Infrasctructure.csproj", "{F1EF4E0A-F414-4B4B-8A8E-790766EA8BAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProvaMG.Infrasctructure", "ProvaMG.Infrasctructure\ProvaMG.Infrasctructure.csproj", "{F1EF4E0A-F414-4B4B-8A8E-790766EA8BAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.Application.IntegrationTests", "ProvaMG.Application.IntegrationTests\ProvaMG.Application.IntegrationTests.csproj", "{5006D422-E590-4D48-A6D1-48D604893C51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProvaMG.Application.IntegrationTests", "ProvaMG.Application.IntegrationTests\ProvaMG.Application.IntegrationTests.csproj", "{5006D422-E590-4D48-A6D1-48D604893C51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.App", "ProvaMG.App\ProvaMG.App.csproj", "{075732CE-CB9C-489E-A08D-64A0AD25BB97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProvaMG.App", "ProvaMG.App\ProvaMG.App.csproj", "{075732CE-CB9C-489E-A08D-64A0AD25BB97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProvaMG.Infrasctructure.IntegrationTests", "ProvaMG.Infrasctructure.IntegrationTests\ProvaMG.Infrasctructure.IntegrationTests.csproj", "{3BD24FDF-955B-49AD-8085-171BD19D7BD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProvaMG.Infrasctructure.IntegrationTests", "ProvaMG.Infrasctructure.IntegrationTests\ProvaMG.Infrasctructure.IntegrationTests.csproj", "{3BD24FDF-955B-49AD-8085-171BD19D7BD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{14F96E51-231C-41A2-A3C2-9A5F077EB1EE}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F0A13D9C-7102-4868-A7D2-BE92FEB406EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,5 +58,20 @@ Global
 		{3BD24FDF-955B-49AD-8085-171BD19D7BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BD24FDF-955B-49AD-8085-171BD19D7BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BD24FDF-955B-49AD-8085-171BD19D7BD1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CFD9C230-3EBA-4B08-89C4-6E4BB1240EA9} = {F0A13D9C-7102-4868-A7D2-BE92FEB406EF}
+		{E3D713B2-3BEA-4621-9D69-D934FAF0AF81} = {F0A13D9C-7102-4868-A7D2-BE92FEB406EF}
+		{F467F9C1-E650-4FD9-9114-6780D08E1B2F} = {F0A13D9C-7102-4868-A7D2-BE92FEB406EF}
+		{F1EF4E0A-F414-4B4B-8A8E-790766EA8BAF} = {F0A13D9C-7102-4868-A7D2-BE92FEB406EF}
+		{5006D422-E590-4D48-A6D1-48D604893C51} = {F0A13D9C-7102-4868-A7D2-BE92FEB406EF}
+		{075732CE-CB9C-489E-A08D-64A0AD25BB97} = {F0A13D9C-7102-4868-A7D2-BE92FEB406EF}
+		{3BD24FDF-955B-49AD-8085-171BD19D7BD1} = {F0A13D9C-7102-4868-A7D2-BE92FEB406EF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58D20DCA-E3C9-4B4C-A440-5DD985485600}
 	EndGlobalSection
 EndGlobal
