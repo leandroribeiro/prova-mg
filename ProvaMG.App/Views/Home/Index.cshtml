@@ -155,72 +155,39 @@
                     }
 
                     return arr;
+                },
+                
+                tratarError: function(jqxhr, textStatus, error) {
+                    var err = textStatus + ", " + error;
+                    
+                    console.error('Request Failed: ' + err );
+                    
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'error',
+                        title: 'Ocorreu um erro!',
+                        showConfirmButton: false,
+                        timer: 6000,
+                        timerProgressBar: true
+                    });
                 }
-
             };
 
             var service = {
-                obterUnidadesSync: function(){
- 
-                    var result = $.ajax({ 
-                        url: '@Url.Action("ObterUnidades")', 
-                        dataType: 'json', 
-                        async: false
-                    }).responseJSON;
-
-                    return result;
-                },
-                obterUnidades: function(callback) {
-                    $.getJSON('@Url.Action("ObterUnidades")', function(data){
-                        callback(data);
-                    });
+                obterUnidades: function() {
+                    return $.getJSON('@Url.Action("ObterUnidades")');
                     
                 },
-                obterMunicipios: function(uf, pagina, callback) {
+                obterMunicipios: function(uf, pagina) {
                     if (uf != null && uf !== '') {
-                        $.getJSON('@Url.Action("ObterMunicipiosPor")', { uf: uf, pagina: pagina }, function(data) {
-                            callback(data);
-                        });
+                        return $.getJSON('@Url.Action("ObterMunicipiosPor")', { uf: uf, pagina: pagina });
                     }
+                    return false;
                 },
 
                 editar: function(municipioCodigo, municipioNovoNome) {
-                    // TODO callBack and fallback??
-                    // OR ProMISSE
-                    // TODO Waiting?
-                    $.post('@Url.Action("AlterarNomeMunicipio")', { codigo: municipioCodigo, novoNome: municipioNovoNome }, function(data) {
-                                if (data != null && !jQuery.isEmptyObject(data)) {
-                                    //TODO
-                                }
-                                
-                                const Toast = Swal.mixin({
-                                  toast: true,
-                                  position: 'top',
-                                  showConfirmButton: false,
-                                  timer: 3000,
-                                  timerProgressBar: true
-                                })
-
-                                Toast.fire({
-                                    icon: 'success',
-                                    title: '<h4>Alteração realizada com sucesso!</h4>'
-                                });
-                                
-                            })
-                        .fail(function() {
-                            
-                            console.error();
-                            
-                            Swal.fire({
-                              position: 'top-end',
-                              icon: 'error',
-                              title: 'Ocorreu um erro!',
-                              showConfirmButton: false,
-                              timer: 5000
-                            });
-                            
-                        });
-                }                
+                    return $.post('@Url.Action("AlterarNomeMunicipio")', { codigo: municipioCodigo, novoNome: municipioNovoNome });
+                }
             };
 
             var App = {
@@ -239,43 +206,41 @@
                 render: function () {
                     jQuery.LoadingOverlay("show");
                     
-                    //setTimeout(function(){
-                    //    jQuery.LoadingOverlay("hide");
-                    //}, 3000);
-
-                    service.obterUnidades(this.renderUnidades);
+                    this.renderUnidades();
                 },
 
-                renderUnidades : function(data){
-                        // TODO loading
-                        //grupoContent.html(``);
-
+                renderUnidades : function() {
                         var _content = $("#unidadesContent");
-
-                        var unidades = $.map(data, function(item) {
-                                return { valor: item, texto: item }
+                        
+                        service.obterUnidades()
+                            .done(function(data) {
+                                var unidades = $.map(data, function(item) {
+                                        return { valor: item, texto: item }
+                                    });
+        
+                                _content.html(App.unidadesTemplate({
+                                    titulo: 'Unidades',
+                                    comboId: 'unidades',
+                                    itens: unidades
+                                }));
+                                
+                                _content.find('#unidades').select2({
+                                    placeholder: "Selecione um estado",
+                                    //dropdownAutoWidth: true
+                                    width: '30%'
+                                });
+        
+                                _content.on("change", "select", function(e) {
+                                        e.preventDefault();
+                                        App.carregarMunicipios($(this).val());
+                                    }
+                                );
+                                
+                            })
+                            .fail(util.tratarError)
+                            .always(function() {
+                                jQuery.LoadingOverlay("hide");
                             });
-
-                        _content.html(App.unidadesTemplate({
-                            titulo: 'Unidades',
-                            comboId: 'unidades',
-                            itens: unidades
-                        }));
-
-                        jQuery.LoadingOverlay("hide");
-
-                        _content.find('#unidades').select2({
-                            placeholder: "Selecione um estado",
-                            //dropdownAutoWidth: true
-                            width: '30%'
-                        });
-
-                        _content.on("change", "select", function(e) {
-                                e.preventDefault();
-                                // TODO service.obterMunicipios(unidadeFederativa, 1, this.renderMunicipios);
-                                App.carregarMunicipios($(this).val());
-                            }
-                        );
 
                 },
 
@@ -290,9 +255,29 @@
                     elem.prev('a').show();
                     elem.prev('a').text(municipioNovoNome);
 
-                    service.editar(municipioCodigo, municipioNovoNome);
+                    service.editar(municipioCodigo, municipioNovoNome)
+                        .done(function (data) {
+                            if (data != null && !jQuery.isEmptyObject(data)) {
+                                //TODO
+                            }
+                            
+                            const Toast = Swal.mixin({
+                              toast: true,
+                              position: 'top',
+                              showConfirmButton: false,
+                              timer: 3000,
+                              timerProgressBar: true
+                            })
+    
+                            Toast.fire({
+                                icon: 'success',
+                                title: '<h4>Alteração realizada com sucesso!</h4>'
+                            });
+                                    
+                        })
+                        .fail(util.tratarError);
                 },
-
+                
                 renderMunicipios: function(data){
                     if (data != null && !jQuery.isEmptyObject(data)) {
 
@@ -353,7 +338,6 @@
                 },
 
                 renderPaginacao: function(data){
-
                     var _content = $("#paginacaoContent");
 
                     _content.html('');
@@ -372,17 +356,25 @@
                         });
                 },
 
-                carregarMunicipios: function(unidadeFederativa) {
+                carregarMunicipios: function(unidadeFederativa, indice) {
                     jQuery.LoadingOverlay("show");
 
-                    service.obterMunicipios(unidadeFederativa, 1, this.renderMunicipios);
+                    if (indice === undefined || indice === null || indice === ''){
+                        indice = 1;
+                    }
+                    
+                    service.obterMunicipios(unidadeFederativa, indice)
+                        .done(this.renderMunicipios)
+                        .fail(util.tratarError)
+                        .always(function() {
+                            jQuery.LoadingOverlay("hide");
+                        });
                 },
 
                 paginar: function(indice) {
-                    jQuery.LoadingOverlay("show");
-                    
                     var unidadeFederativa = $("#unidades").val();
-                    service.obterMunicipios(unidadeFederativa, indice, this.renderMunicipios);
+                    
+                    this.carregarMunicipios(unidadeFederativa, indice);
                 }
 
             } // App
