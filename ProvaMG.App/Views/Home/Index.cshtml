@@ -120,58 +120,147 @@
     </script>
 
     <script type="text/javascript">
+        var util = (function() {
+            function gerarPaginas(paginaAtual, paginaFinal) {
+                var min = 1;
+                var max = paginaFinal;
+
+                var arr = [];
+                for (let i = min; i <= max; i += 1) {
+                    arr.push(i);
+                }
+
+                return arr;
+            }
+
+            function gerarPaginasComLimite(paginaAtual, paginaFinal, limite) {
+                var min = paginaAtual -limite;
+                while(min <= 0){
+                    min++;
+                }
+                var max = paginaAtual +limite;
+                while(max > paginaFinal){
+                    max--;
+                }
+                var arr = [];
+                for (let i = min; i <= max; i += 1) {
+                    arr.push(i);
+                }
+
+                return arr;
+            }
+            
+            function tratarError(jqxhr, textStatus, error) {
+                var err = textStatus + ", " + error;
+                
+                console.error('Request Failed: ' + err );
+                
+                Swal.fire({
+                    position: 'top',
+                    icon: 'error',
+                    title: 'Ocorreu um erro!',
+                    showConfirmButton: false,
+                    timer: 6000,
+                    timerProgressBar: true
+                });
+            }
+            
+            return {
+                gerarPaginas: gerarPaginas,
+                gerarPaginasComLimite: gerarPaginasComLimite,
+                tratarError: tratarError
+            }
+            
+        })();    
+    
+        var events = (function() {
+        
+            var events = {};
+        
+            function on(eventName, fn) {
+                events[eventName] = events[eventName] || [];
+                events[eventName].push(fn);
+            }
+        
+            function off(eventName, fn) {
+                if (events[eventName]) {
+                    for (var i = 0; i < events[eventName].length; i++) {
+                        if( events[eventName][i] === fn ) {
+                            events[eventName].splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        
+            function emit(eventName, data) {
+                if (events[eventName]) {
+                    events[eventName].forEach(function(fn) {
+                        fn(data);
+                    });
+                }
+            }
+        
+            return {
+                on: on,
+                off: off,
+                emit: emit
+            };
+        
+        })();
+    
+        var paginacao = (function (){
+            var paginacaoData = {
+                paginas:0,
+                paginaAtual:0
+            };
+            
+            //cache DOM
+            var $paginacaoContent = $("#paginacaoContent");
+            var paginacaoTemplate = Handlebars.compile($("#paginator-template").html());
+            
+            //bind events
+            $paginacaoContent.on("click","nav ul li.page-item a", _goToPage);
+            
+            _render();
+            
+            function _render(){
+                $paginacaoContent.html('');
+                $paginacaoContent.html(paginacaoTemplate(paginacaoData));
+                
+            }
+            
+            function _goToPage(event) {
+                event.stopImmediatePropagation();
+
+                var elem = $(this);
+                var indicePagina = elem.data('pagina');
+
+                events.emit('paginar', indicePagina);
+
+                return false;
+            }
+            
+            function setData(currentPage, pagesCount) {
+                paginacaoData = { 
+                    paginas: util.gerarPaginas(currentPage, pagesCount),
+                    paginaAtual:  currentPage
+                };
+                _render();
+            }
+            
+            return {
+                setData: setData
+            }
+            
+        })();
+        
         jQuery(function($) {
             'use strict';
 
             Handlebars.registerHelper('eq', function(a, b) {
                     return a === b;
                 });
-
-            var util = {
-                gerarPaginas: function(paginaAtual, paginaFinal) {
-                    var min = 1;
-                    var max = paginaFinal;
-
-                    var arr = [];
-                    for (let i = min; i <= max; i += 1) {
-                        arr.push(i);
-                    }
-
-                    return arr;
-                },
-
-                gerarPaginasComLimite: function(paginaAtual, paginaFinal, limite) {
-                    var min = paginaAtual -limite;
-                    while(min <= 0){
-                        min++;
-                    }
-                    var max = paginaAtual +limite;
-                    while(max > paginaFinal){
-                        max--;
-                    }
-                    var arr = [];
-                    for (let i = min; i <= max; i += 1) {
-                        arr.push(i);
-                    }
-
-                    return arr;
-                },
-                
-                tratarError: function(jqxhr, textStatus, error) {
-                    var err = textStatus + ", " + error;
-                    
-                    console.error('Request Failed: ' + err );
-                    
-                    Swal.fire({
-                        position: 'top',
-                        icon: 'error',
-                        title: 'Ocorreu um erro!',
-                        showConfirmButton: false,
-                        timer: 6000,
-                        timerProgressBar: true
-                    });
-                }
-            };
 
             var service = {
                 obterUnidades: function() {
@@ -192,15 +281,26 @@
 
             var App = {
                 init: function () {
-                    this.unidadesTemplate = Handlebars.compile($("#combo-template").html());
-                    this.municipiosTemplate = Handlebars.compile($("#table-template").html());
-                    this.paginacaoTemplate = Handlebars.compile($("#paginator-template").html());
-
+                    this.cacheDom();
                     this.bindEvents();
                     this.render();
                 },
-
+            
+                cacheDom: function () {
+                    this.unidadesTemplate = Handlebars.compile($("#combo-template").html());
+                    this.municipiosTemplate = Handlebars.compile($("#table-template").html());
+                    
+                    this.$unidades = $("#unidadesContent");
+                },
+                
                 bindEvents: function() {
+                    this.$unidades.on("change", "select", function(e) {
+                            e.preventDefault();
+                            App.carregarMunicipios($(this).val());
+                        }
+                    );
+                    
+                    events.on('paginar', this.paginar);
                 },
 
                 render: function () {
@@ -210,7 +310,6 @@
                 },
 
                 renderUnidades : function() {
-                        var _content = $("#unidadesContent");
                         
                         service.obterUnidades()
                             .done(function(data) {
@@ -218,23 +317,17 @@
                                         return { valor: item, texto: item }
                                     });
         
-                                _content.html(App.unidadesTemplate({
+                                App.$unidades.html(App.unidadesTemplate({
                                     titulo: 'Unidades',
                                     comboId: 'unidades',
                                     itens: unidades
                                 }));
                                 
-                                _content.find('#unidades').select2({
+                                App.$unidades.find('#unidades').select2({
                                     placeholder: "Selecione um estado",
                                     //dropdownAutoWidth: true
                                     width: '30%'
                                 });
-        
-                                _content.on("change", "select", function(e) {
-                                        e.preventDefault();
-                                        App.carregarMunicipios($(this).val());
-                                    }
-                                );
                                 
                             })
                             .fail(util.tratarError)
@@ -304,15 +397,6 @@
 
                         _content.html(App.municipiosTemplate(municipiosData));
 
-                        var paginacaoData = { 
-                            paginas: util.gerarPaginas(data.currentPage, data.pageCount),
-                            paginaAtual:  data.currentPage
-                        };
-
-                        App.renderPaginacao(paginacaoData);
-
-                        jQuery.LoadingOverlay("hide");
-
                         _content.on("click", "table tbody a", function(event) {
                                 event.stopImmediatePropagation();
 
@@ -337,25 +421,6 @@
 
                 },
 
-                renderPaginacao: function(data){
-                    var _content = $("#paginacaoContent");
-
-                    _content.html('');
-
-                    _content.html(App.paginacaoTemplate(data));
-                    
-                    _content.on("click","nav ul li.page-item a", function(event) {
-                            event.stopImmediatePropagation();
-
-                            var elem = $(this);
-                            var indicePagina = elem.data('pagina');
-
-                            App.paginar(indicePagina);
-
-                            return false;
-                        });
-                },
-
                 carregarMunicipios: function(unidadeFederativa, indice) {
                     jQuery.LoadingOverlay("show");
 
@@ -364,7 +429,11 @@
                     }
                     
                     service.obterMunicipios(unidadeFederativa, indice)
-                        .done(this.renderMunicipios)
+                        .done(function (data){
+                            App.renderMunicipios(data);
+                            paginacao.setData(data.currentPage, data.pageCount);
+                            
+                        })
                         .fail(util.tratarError)
                         .always(function() {
                             jQuery.LoadingOverlay("hide");
@@ -374,7 +443,7 @@
                 paginar: function(indice) {
                     var unidadeFederativa = $("#unidades").val();
                     
-                    this.carregarMunicipios(unidadeFederativa, indice);
+                    App.carregarMunicipios(unidadeFederativa, indice);
                 }
 
             } // App
