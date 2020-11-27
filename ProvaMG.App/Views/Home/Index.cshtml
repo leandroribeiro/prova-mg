@@ -234,8 +234,6 @@
                 var indicePagina = $(this).data('pagina');
 
                 events.emit('paginar', indicePagina);
-
-                return false;
             }
             
             function setData(currentPage, pagesCount) {
@@ -343,6 +341,7 @@
         
                     $municipiosContent.html(municipiosTemplate(municipiosData));
         
+                    //TODO
                     $municipiosContent.on("click", "table tbody a", function(event) {
                             event.stopImmediatePropagation();
         
@@ -352,6 +351,7 @@
         
                         });
         
+                    //TODO
                     $municipiosContent.on("keypress", "table tbody input.txtedit", function(event) {
                         event.stopImmediatePropagation();
         
